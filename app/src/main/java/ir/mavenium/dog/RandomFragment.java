@@ -4,12 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class RandomFragment extends Fragment {
+public class RandomFragment extends Fragment implements View.OnClickListener {
+
+    private Button fetchButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -20,6 +24,15 @@ public class RandomFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_random, container, false);
+        fetchButton = rootView.findViewById(R.id.fragment_random_fetch_button);
+        fetchButton.setOnClickListener(this);
         return rootView;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.fragment_random_fetch_button) {
+            Toast.makeText(RandomFragment.super.getContext(), "Click", Toast.LENGTH_SHORT).show();
+        }
     }
 }
