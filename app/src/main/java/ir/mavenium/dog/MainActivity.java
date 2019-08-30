@@ -25,5 +25,9 @@ public class MainActivity extends AppCompatActivity {
         tableLayout = findViewById(R.id.tab_layout);
         tableLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        viewPager = findViewById(R.id.view_pager);
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tableLayout.getTabCount());
+        viewPager.setAdapter(pagerAdapter);
+
     }
 }
