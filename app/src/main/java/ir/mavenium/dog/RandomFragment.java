@@ -16,6 +16,7 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
 
     private Button fetchButton;
     private ImageView dogimageView;
+    private DogApiServices dogApiServices;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +36,19 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.fragment_random_fetch_button) {
-            Toast.makeText(RandomFragment.super.getContext(), "Click", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(RandomFragment.super.getContext(), "Click", Toast.LENGTH_SHORT).show();
+            dogApiServices = new DogApiServices(RandomFragment.super.getContext());
+            dogApiServices.getRandomImage(new DogApiServices.RandomResultCallBack() {
+                @Override
+                public void onRandomImageRecived(String message) {
+                    Toast.makeText(RandomFragment.super.getContext(), message, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onRandomImageError() {
+
+                }
+            });
         }
     }
 

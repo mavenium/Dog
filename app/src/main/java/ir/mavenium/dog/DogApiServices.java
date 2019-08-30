@@ -1,5 +1,6 @@
 package ir.mavenium.dog;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -14,8 +15,13 @@ import org.json.JSONException;
 public class DogApiServices {
 
     private static final String TAG = "ApiServices";
+    private Context context;
 
-    public void getRandomImage(final ResultCallBack resultCallBack) {
+    public DogApiServices(Context context) {
+        this.context = context;
+    }
+
+    public void getRandomImage(final RandomResultCallBack resultCallBack) {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, "https://dog.ceo/api/breeds/image/random", null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -35,15 +41,19 @@ public class DogApiServices {
         });
 
         request.setRetryPolicy(new DefaultRetryPolicy(2000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueueContainer.getInstance(context).add(request);
     }
 
     public void getRandomImageByBeed() {
 
     }
 
-    public interface ResultCallBack {
+    public interface RandomResultCallBack {
         void onRandomImageRecived(String message);
         void onRandomImageError();
+    }
+
+    public interface RandomByBeedResultCallBack {
         void OnRandomImageByBeedRecived();
         void OnRandomImageByBeedError();
     }
