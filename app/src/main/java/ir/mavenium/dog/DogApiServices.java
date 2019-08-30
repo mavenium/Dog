@@ -1,5 +1,7 @@
 package ir.mavenium.dog;
 
+import android.util.Log;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -7,14 +9,23 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 public class DogApiServices {
+
+    private static final String TAG = "ApiServices";
 
     public void getRandomImage(final ResultCallBack resultCallBack) {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, "https://dog.ceo/api/breeds/image/random", null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                resultCallBack.onRandomImageRecived();
+                try {
+                    if (response.getString(1) == "success") {
+                        resultCallBack.onRandomImageRecived(response.getString(0));
+                    }
+                } catch (JSONException e) {
+                    Log.e(TAG, "onResponse: Response Error!", null);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -31,7 +42,7 @@ public class DogApiServices {
     }
 
     public interface ResultCallBack {
-        void onRandomImageRecived();
+        void onRandomImageRecived(String message);
         void onRandomImageError();
         void OnRandomImageByBeedRecived();
         void OnRandomImageByBeedError();
