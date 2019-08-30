@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">Dog</string>
+
     <string name="tab_item_random_image">Random</string>
+    <string name="tab_item_random_image_image_view_description">Random Image</string>
+
+    <string name="tab_item_random_image_fetch_button">Fetch!</string>
     <string name="tab_item_random_image_by_breed">Random By Breed</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="options_menu_settings">Settings</string>
+    <string name="options_menu_about">About</string>
 </resources>
