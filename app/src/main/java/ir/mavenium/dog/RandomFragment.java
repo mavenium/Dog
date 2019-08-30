@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 public class RandomFragment extends Fragment implements View.OnClickListener {
 
     private Button fetchButton;
+    private ImageView dogimageView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_random, container, false);
         fetchButton = rootView.findViewById(R.id.fragment_random_fetch_button);
         fetchButton.setOnClickListener(this);
+        dogimageView = rootView.findViewById(R.id.fragment_random_dog_imageView);
         return rootView;
     }
 
@@ -35,4 +38,6 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(RandomFragment.super.getContext(), "Click", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }

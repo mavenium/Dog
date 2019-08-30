@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/fragment_random_imageView"
+        android:id="@+id/fragment_random_dog_imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/tab_item_random_image_image_view_description"
