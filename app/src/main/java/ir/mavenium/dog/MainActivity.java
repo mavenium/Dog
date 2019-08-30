@@ -42,8 +42,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         viewPager = findViewById(R.id.view_pager);
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tableLayout.getTabCount());
-        viewPager.setAdapter(pagerAdapter);
+        viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), tableLayout.getTabCount()));
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tableLayout));
 
     }
