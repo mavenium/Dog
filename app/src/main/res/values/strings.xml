@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Dog</string>
-    <string name="tab_item_random_image">Random Image</string>
-    <string name="tab_item_random_image_by_breed">Random Image By Breed</string>
+    <string name="tab_item_random_image">Random</string>
+    <string name="tab_item_random_image_by_breed">Random By Breed</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
