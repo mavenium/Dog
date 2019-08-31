@@ -1,5 +1,6 @@
 package ir.mavenium.dog;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.squareup.picasso.Picasso;
+
+import java.net.URI;
 
 public class RandomFragment extends Fragment implements View.OnClickListener {
 
@@ -41,12 +46,13 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
             dogApiServices.getRandomImage(new DogApiServices.RandomResultCallBack() {
                 @Override
                 public void onRandomImageRecived(String message) {
-                    Toast.makeText(RandomFragment.super.getContext(), message, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(RandomFragment.super.getContext(), message, Toast.LENGTH_SHORT).show();
+                    Picasso.get().load(message).into(dogimageView);
                 }
 
                 @Override
-                public void onRandomImageError() {
-
+                public void onRandomImageError(String error) {
+                    Toast.makeText(RandomFragment.super.getContext(), error, Toast.LENGTH_SHORT).show();
                 }
             });
         }

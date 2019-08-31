@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:padding="8dp"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/fragment_random_dog_imageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/tab_item_random_image_image_view_description"
-        app:srcCompat="@color/design_default_color_primary" />
-
     <Button
-        android:layout_marginTop="8dp"
         android:id="@+id/fragment_random_fetch_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:text="@string/tab_item_random_image_fetch_button" />
-</LinearLayout>
+
+    <ImageView
+        android:id="@+id/fragment_random_dog_imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/fragment_random_fetch_button"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/tab_item_random_image_image_view_description"
+        android:scaleType="fitXY" />
+
+</RelativeLayout>
