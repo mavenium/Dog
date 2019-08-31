@@ -5,15 +5,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +35,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Dexter.withActivity(MainActivity.this)
+                .withPermissions(Manifest.permission.INTERNET, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()){
+                            Toast.makeText(MainActivity.this,"تمام دسترسی ها تایید شدند",Toast.LENGTH_SHORT).show();
+                        }
+                        if (report.isAnyPermissionPermanentlyDenied()){
+                            Toast.makeText(MainActivity.this,"حداقل یک دسترسی کامل رد شده است، برای تایید آن به تنظیمات برنامه بروید!",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, final PermissionToken token) {
+                        Snackbar.make(viewPager,"برای ادامه دادن، این دسترسی ها لازم هستند!", Snackbar.LENGTH_INDEFINITE)
+                                .setAction("اجازه دادن!", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        token.continuePermissionRequest();
+                                    }
+                                }).show();
+                    }
+                }).check();
 
         if(hasInternetConnection()){
             Toast.makeText(this, "Have Connection !", Toast.LENGTH_LONG).show();
