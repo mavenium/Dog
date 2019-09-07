@@ -63,7 +63,7 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onRandomImageError(String error) {
-                Toast.makeText(RandomFragment.super.getContext(), error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -92,9 +92,9 @@ public class DogApiServices {
         void onRandomImageError(String error);
     }
 
-    public interface RandomByBeedResultCallBack {
-        void OnRandomImageByBeedRecived();
-        void OnRandomImageByBeedError();
+    public interface RandomByBreedResultCallBack {
+        void OnRandomImageByBreedRecived();
+        void OnRandomImageByBreedError();
     }
 
     public interface ListAllBreedsCallBack {

@@ -5,7 +5,26 @@
     android:padding="8dp">
 
     <Spinner
-        android:id="@+id/fragment_random_by_beed_list_of_breeds"
+        android:id="@+id/fragment_random_by_breed_list_of_breeds"
         android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/fragment_random_by_breed_fetch_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/tab_item_random_image_fetch_button" />
+
+    <ImageView
+        android:id="@+id/fragment_random_by_breed_imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/fragment_random_by_breed_list_of_breeds"
+        android:layout_above="@id/fragment_random_by_breed_fetch_button"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/tab_item_random_image_image_view_description"
+        android:scaleType="fitXY" />
 </RelativeLayout>
