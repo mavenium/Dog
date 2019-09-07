@@ -81,7 +81,7 @@ public class RandomByBreedFragment extends Fragment implements View.OnClickListe
         }
     }
 
-    public void sendRequest() {
+    private void sendRequest() {
         dogApiServices.getRandomImageByBreed(new DogApiServices.RandomByBreedResultCallBack() {
             @Override
             public void OnRandomImageByBreedRecived(String message) {
