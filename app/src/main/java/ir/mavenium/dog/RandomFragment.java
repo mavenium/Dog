@@ -1,12 +1,12 @@
 package ir.mavenium.dog;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,13 +15,12 @@ import androidx.fragment.app.Fragment;
 
 import com.squareup.picasso.Picasso;
 
-import java.net.URI;
-
 public class RandomFragment extends Fragment implements View.OnClickListener {
 
     private Button fetchButton;
     private ImageView dogimageView;
     private DogApiServices dogApiServices;
+    private TextView dogBreedName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +34,7 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
         fetchButton = rootView.findViewById(R.id.fragment_random_fetch_button);
         fetchButton.setOnClickListener(this);
         dogimageView = rootView.findViewById(R.id.fragment_random_dog_imageView);
+        dogBreedName = rootView.findViewById(R.id.fragment_random_dog_breed_name);
         return rootView;
     }
 
@@ -48,6 +48,9 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
                 public void onRandomImageRecived(String message) {
 //                    Toast.makeText(RandomFragment.super.getContext(), message, Toast.LENGTH_SHORT).show();
                     Picasso.get().load(message).into(dogimageView);
+                    String[] separated = message.split("/");
+                    dogBreedName.setText(separated[4].trim());
+
                 }
 
                 @Override
