@@ -59,7 +59,6 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
                 Picasso.get().load(message).into(dogimageView);
                 String[] separated = message.split("/");
                 dogBreedName.setText(separated[4].trim());
-
             }
 
             @Override

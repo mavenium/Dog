@@ -3,7 +3,6 @@ package ir.mavenium.dog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -15,6 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class DogApiServices {
 
@@ -61,9 +62,13 @@ public class DogApiServices {
                 try {
                     if ("success".equals(response.getString("status"))) {
                         JSONObject message = response.getJSONObject("message");
-                        message.length();
-                        Toast.makeText(context, message.length(), Toast.LENGTH_SHORT).show();
-//                        resultCallBack.onListAllBreedsRecived();
+                        Iterator keys = message.keys();
+                        List<String> allBreedsList = new ArrayList();
+                        while (keys.hasNext()) {
+                            String breeds = (String) keys.next();
+                            allBreedsList.add(breeds);
+                        }
+                        resultCallBack.onListAllBreedsRecived(allBreedsList);
                     }
                 } catch (JSONException e) {
                     Log.e(TAG, "getListAllBreeds onResponse: Error in fetch result!!", null);
@@ -93,7 +98,7 @@ public class DogApiServices {
     }
 
     public interface ListAllBreedsCallBack {
-        void onListAllBreedsRecived(ArrayList Breeds);
+        void onListAllBreedsRecived(List<String> Breeds);
         void onListAllBreedsError(String Error);
     }
 }
