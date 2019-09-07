@@ -1,20 +1,20 @@
 package ir.mavenium.dog;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class DogApiServices {
 
@@ -31,18 +31,18 @@ public class DogApiServices {
             public void onResponse(JSONObject response) {
                 try {
                     if ("success".equals(response.getString("status"))) {
-                        Log.e(TAG, "onResponse: " + response.getString("message"), null);
+                        Log.e(TAG, "getRandomImage onResponse: " + response.getString("message"), null);
                         resultCallBack.onRandomImageRecived(response.getString("message"));
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "getRandomImage onResponse: Error in fetch result!!", null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "onErrorResponse: " + error.toString(), null);
-                resultCallBack.onRandomImageError("Errrror");
+                Log.e(TAG, "getRandomImage onErrorResponse: " + error.toString(), null);
+                resultCallBack.onRandomImageError(Resources.getSystem().getString(R.string.dog_api_services_error_listener));
             }
         });
 
@@ -54,6 +54,34 @@ public class DogApiServices {
 
     }
 
+    public void getListAllBreeds(final ListAllBreedsCallBack resultCallBack) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, " https://dog.ceo/api/breeds/list/all", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if ("success".equals(response.getString("status"))) {
+                        JSONObject message = response.getJSONObject("message");
+                        message.length();
+                        Toast.makeText(context, message.length(), Toast.LENGTH_SHORT).show();
+//                        resultCallBack.onListAllBreedsRecived();
+                    }
+                } catch (JSONException e) {
+                    Log.e(TAG, "getListAllBreeds onResponse: Error in fetch result!!", null);
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "getListAllBreeds onErrorResponse: " + error.toString(), null);
+                resultCallBack.onListAllBreedsError(Resources.getSystem().getString(R.string.dog_api_services_error_listener));
+            }
+        });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(3000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueueContainer.getInstance(context).add(request);
+    }
+
     public interface RandomResultCallBack {
         void onRandomImageRecived(String message);
         void onRandomImageError(String error);
@@ -62,5 +90,10 @@ public class DogApiServices {
     public interface RandomByBeedResultCallBack {
         void OnRandomImageByBeedRecived();
         void OnRandomImageByBeedError();
+    }
+
+    public interface ListAllBreedsCallBack {
+        void onListAllBreedsRecived(ArrayList Breeds);
+        void onListAllBreedsError(String Error);
     }
 }
