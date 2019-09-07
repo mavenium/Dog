@@ -20,6 +20,7 @@
         android:textSize="18sp"
         android:layout_marginBottom="8dp"
         android:layout_above="@id/fragment_random_fetch_button"
+        android:textAllCaps="true"
         Tools:text="Dog Breed Name" />
 
     <ImageView
