@@ -39,26 +39,34 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onStart() {
+        sendRequest();
+        super.onStart();
+    }
+
+    @Override
     public void onClick(View view) {
         if (view.getId() == R.id.fragment_random_fetch_button) {
-//            Toast.makeText(RandomFragment.super.getContext(), "Click", Toast.LENGTH_SHORT).show();
-            dogApiServices = new DogApiServices(RandomFragment.super.getContext());
-            dogApiServices.getRandomImage(new DogApiServices.RandomResultCallBack() {
-                @Override
-                public void onRandomImageRecived(String message) {
-//                    Toast.makeText(RandomFragment.super.getContext(), message, Toast.LENGTH_SHORT).show();
-                    Picasso.get().load(message).into(dogimageView);
-                    String[] separated = message.split("/");
-                    dogBreedName.setText(separated[4].trim());
-
-                }
-
-                @Override
-                public void onRandomImageError(String error) {
-                    Toast.makeText(RandomFragment.super.getContext(), error, Toast.LENGTH_SHORT).show();
-                }
-            });
+            sendRequest();
         }
+    }
+
+    private void sendRequest() {
+        dogApiServices = new DogApiServices(RandomFragment.super.getContext());
+        dogApiServices.getRandomImage(new DogApiServices.RandomResultCallBack() {
+            @Override
+            public void onRandomImageRecived(String message) {
+                Picasso.get().load(message).into(dogimageView);
+                String[] separated = message.split("/");
+                dogBreedName.setText(separated[4].trim());
+
+            }
+
+            @Override
+            public void onRandomImageError(String error) {
+                Toast.makeText(RandomFragment.super.getContext(), error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
