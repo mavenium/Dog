@@ -20,8 +20,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 RandomFragment randomFragment = new RandomFragment();
                 return randomFragment;
             case 1:
-                RandomByBeedFragment randomByBeedFragment = new RandomByBeedFragment();
-                return randomByBeedFragment;
+                RandomByBreedFragment randomByBreedFragment = new RandomByBreedFragment();
+                return randomByBreedFragment;
             default:
                 return null;
         }

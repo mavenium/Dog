@@ -9,9 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class RandomByBeedFragment extends Fragment {
+public class RandomByBreedFragment extends Fragment {
 
     private DogApiServices dogApiServices;
 
@@ -23,16 +23,16 @@ public class RandomByBeedFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_random_by_beed, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_random_by_breed, container, false);
         return rootView;
     }
 
     @Override
     public void onStart() {
-        dogApiServices = new DogApiServices(RandomByBeedFragment.super.getContext());
+        dogApiServices = new DogApiServices(RandomByBreedFragment.super.getContext());
         dogApiServices.getListAllBreeds(new DogApiServices.ListAllBreedsCallBack() {
             @Override
-            public void onListAllBreedsRecived(ArrayList Breeds) {
+            public void onListAllBreedsRecived(List<String> Breeds) {
 
             }
 
