@@ -15,14 +15,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
-public class RandomByBreedFragment extends Fragment {
+public class RandomByBreedFragment extends Fragment implements View.OnClickListener {
 
     private Spinner listOfBreeds;
     private ImageView dogImageView;
     private Button fetchButton;
     private DogApiServices dogApiServices;
+    private String breedsSelected;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class RandomByBreedFragment extends Fragment {
         listOfBreeds = rootView.findViewById(R.id.fragment_random_by_breed_list_of_breeds);
         dogImageView = rootView.findViewById(R.id.fragment_random_by_breed_imageView);
         fetchButton = rootView.findViewById(R.id.fragment_random_by_breed_fetch_button);
+        fetchButton.setOnClickListener(this);
         return rootView;
     }
 
@@ -51,12 +55,12 @@ public class RandomByBreedFragment extends Fragment {
                 listOfBreeds.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        Toast.makeText(getContext(), listOfBreeds.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                        breedsSelected = listOfBreeds.getSelectedItem().toString();
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
-
+                        breedsSelected = "affenpinscher";
                     }
                 });
 
@@ -68,5 +72,26 @@ public class RandomByBreedFragment extends Fragment {
             }
         });
         super.onStart();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.fragment_random_by_breed_fetch_button) {
+            sendRequest();
+        }
+    }
+
+    public void sendRequest() {
+        dogApiServices.getRandomImageByBreed(new DogApiServices.RandomByBreedResultCallBack() {
+            @Override
+            public void OnRandomImageByBreedRecived(String message) {
+                Picasso.get().load(message).into(dogImageView);
+            }
+
+            @Override
+            public void OnRandomImageByBreedError(String Error) {
+                Toast.makeText(getContext(), Error, Toast.LENGTH_SHORT).show();
+            }
+        }, breedsSelected);
     }
 }

@@ -51,8 +51,29 @@ public class DogApiServices {
         RequestQueueContainer.getInstance(context).add(request);
     }
 
-    public void getRandomImageByBeed() {
+    public void getRandomImageByBreed(final RandomByBreedResultCallBack randomByBreedResultCallBack, String Breed) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, "https://dog.ceo/api/breed/" + Breed + "/images/random", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if ("success".equals(response.getString("status"))) {
+                        randomByBreedResultCallBack.OnRandomImageByBreedRecived(response.getString("message"));
+                    }
+                } catch (JSONException e) {
+                    Log.e(TAG, "getRandomImageByBreed onResponse: Error in fetch result!!", null);
+                }
 
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "getRandomImageByBreed onErrorResponse: " + error.toString(), null);
+                randomByBreedResultCallBack.OnRandomImageByBreedError(Resources.getSystem().getString(R.string.dog_api_services_error_listener));
+            }
+        });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(3000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueueContainer.getInstance(context).add(request);
     }
 
     public void getListAllBreeds(final ListAllBreedsCallBack resultCallBack) {
@@ -93,8 +114,8 @@ public class DogApiServices {
     }
 
     public interface RandomByBreedResultCallBack {
-        void OnRandomImageByBreedRecived();
-        void OnRandomImageByBreedError();
+        void OnRandomImageByBreedRecived(String message);
+        void OnRandomImageByBreedError(String Error);
     }
 
     public interface ListAllBreedsCallBack {
