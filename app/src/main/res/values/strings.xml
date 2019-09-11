@@ -13,6 +13,9 @@
     <string name="dog_api_services_error_listener">Error In Fetch Result From Server!</string>
     <string name="title_activity_settings">Settings</string>
 
+    <!-- Preference Activity Title -->
+    <string name="preference_activity_title">Settings</string>
+
     <!-- Preference Titles -->
     <string name="basic_header">Basic</string>
 
