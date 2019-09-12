@@ -23,7 +23,7 @@
             android:defaultValue="1"
             android:entries="@array/language_entries"
             android:entryValues="@array/language_values"
-            android:key="list_language"
+            android:key="app_language"
             android:icon="@drawable/ic_language_black_24dp"
             android:title="@string/language_title" />
     </PreferenceCategory>

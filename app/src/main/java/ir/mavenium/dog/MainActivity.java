@@ -3,11 +3,14 @@ package ir.mavenium.dog;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -25,12 +28,14 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TabLayout tableLayout;
     private ViewPager viewPager;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +99,28 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), tableLayout.getTabCount()));
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tableLayout));
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        settingsChecker();
+    }
+
+    public void settingsChecker() {
+        String language = sharedPreferences.getString("app_language", "english");
+        Configuration configuration = getResources().getConfiguration();
+        switch (language) {
+            case "persian":
+                configuration.setLocale(new Locale("fa"));
+                break;
+            case "english":
+                configuration.setLocale(new Locale("en"));
+                break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        settingsChecker();
+        super.onResume();
     }
 
     @Override
