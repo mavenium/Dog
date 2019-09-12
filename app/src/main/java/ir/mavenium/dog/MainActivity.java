@@ -11,9 +11,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -105,15 +107,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void settingsChecker() {
-        String language = sharedPreferences.getString("app_language", "english");
+        String language = sharedPreferences.getString("app_language", "en_US");
         Configuration configuration = getResources().getConfiguration();
-        switch (language) {
-            case "persian":
-                configuration.setLocale(new Locale("fa"));
-                break;
-            case "english":
-                configuration.setLocale(new Locale("en"));
-                break;
+        Locale currentLocale = getResources().getConfiguration().locale;
+
+        if (!language.equals(currentLocale.toString())) {
+            switch (language) {
+                case "fa_IR":
+                    configuration.setLocale(new Locale("fa", "IR"));
+                    break;
+                case "en_US":
+                    configuration.setLocale(new Locale("en", "US"));
+                    break;
+            }
+
+            Snackbar.make(viewPager, getText(R.string.snackbar_text), Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.snackbar_action), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
+                }
+            }).show();
         }
     }
 

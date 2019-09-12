@@ -21,4 +21,8 @@
 
     <!-- Basic Preferences -->
     <string name="language_title">Language</string>
+
+    <!-- Snackbar - Restart -->
+    <string name="snackbar_text">You\'ll need to restart the app to take effect</string>
+    <string name="snackbar_action">OK</string>
 </resources>
