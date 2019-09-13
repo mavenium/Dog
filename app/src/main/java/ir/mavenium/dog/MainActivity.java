@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.option_menu_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
-                break;
+                return true;
             case R.id.option_menu_about:
                 final AlertDialog.Builder infoApp = new AlertDialog.Builder(MainActivity.this);
                 infoApp.setTitle(getString(R.string.app_information)).setMessage(getText(R.string.app_information_message)).setPositiveButton(getText(R.string.app_home_page), new DialogInterface.OnClickListener() {
@@ -127,9 +127,10 @@ public class MainActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 }).setCancelable(false).show();
-                break;
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     public boolean hasInternetConnection() {

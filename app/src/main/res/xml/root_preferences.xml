@@ -20,7 +20,7 @@
 
     <PreferenceCategory app:title="@string/basic_header" android:icon="@drawable/ic_settings_black_24dp">
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="en"
             android:entries="@array/language_entries"
             android:entryValues="@array/language_values"
             android:key="app_language"
