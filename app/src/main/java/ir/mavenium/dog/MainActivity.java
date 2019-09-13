@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private Toolbar toolbar;
     private TabLayout tableLayout;
     private ViewPager viewPager;
@@ -43,17 +45,17 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()){
-                            Toast.makeText(MainActivity.this,"تمام دسترسی ها تایید شدند",Toast.LENGTH_SHORT).show();
+                            Log.i(TAG, "onPermissionsChecked: All Permissions Granted !");
                         }
                         if (report.isAnyPermissionPermanentlyDenied()){
-                            Toast.makeText(MainActivity.this,"حداقل یک دسترسی کامل رد شده است، برای تایید آن به تنظیمات برنامه بروید!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,getText(R.string.any_permission_permanently_denied),Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, final PermissionToken token) {
-                        Snackbar.make(viewPager,"برای ادامه دادن، این دسترسی ها لازم هستند!", Snackbar.LENGTH_INDEFINITE)
-                                .setAction("اجازه دادن!", new View.OnClickListener() {
+                        Snackbar.make(viewPager,getText(R.string.need_permission), Snackbar.LENGTH_INDEFINITE)
+                                .setAction(getText(R.string.allow_permission), new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         token.continuePermissionRequest();
@@ -63,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
                 }).check();
 
         if(hasInternetConnection()){
-            Toast.makeText(this, "Have Connection !", Toast.LENGTH_LONG).show();
+            Log.i(TAG, "onCreate - hasInternetConnection: Have Internet !");
         } else {
-            Toast.makeText(this, "No Connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getText(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
         }
 
         toolbar = findViewById(R.id.toolbar);
@@ -104,10 +106,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case 0:
+            case R.id.option_menu_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
-            case 1:
+            case R.id.option_menu_about:
                 Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
                 break;
         }

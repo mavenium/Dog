@@ -11,4 +11,8 @@
     <string name="dog_api_services_error_listener">خطا در دریافت اطلاعات از سرور!</string>
     <string name="basic_header">پایه</string>
     <string name="options_menu_about">درباره</string>
+    <string name="no_internet_connection">برای استفاده از این برنامه، نیاز به دسترسی اینترنت دارید!</string>
+    <string name="need_permission">برای ادامه دادن، این دسترسی ها لازم هستند!</string>
+    <string name="allow_permission">اجازه دادن!</string>
+    <string name="any_permission_permanently_denied">حداقل یک دسترسی کامل رد شده است، برای تایید آن به تنظیمات برنامه بروید!</string>
 </resources>
