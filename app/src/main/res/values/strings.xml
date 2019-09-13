@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Dog</string>
+    <string name="app_information">Application information</string>
+    <string name="app_information_message">Programming by Mehdi Namaki (Mavenium) Based on dog.ceo API Project.</string>
+    <string name="app_information_ok">OK</string>
+    <string name="app_home_page">Project Home Page</string>
+
     <string name="no_internet_connection">To Use This App, You Need Internet Access!</string>
     <string name="need_permission">These Permissions Are Required To Continue!</string>
     <string name="allow_permission">Allow!</string>

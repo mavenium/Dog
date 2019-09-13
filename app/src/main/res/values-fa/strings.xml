@@ -15,4 +15,8 @@
     <string name="need_permission">برای ادامه دادن، این دسترسی ها لازم هستند!</string>
     <string name="allow_permission">اجازه دادن!</string>
     <string name="any_permission_permanently_denied">حداقل یک دسترسی کامل رد شده است، برای تایید آن به تنظیمات برنامه بروید!</string>
+    <string name="app_information">اطلاعات برنامه</string>
+    <string name="app_information_message">برنامه نویسی شده توسط مهدی نمکی (Mavenium) بر پایه API پروژه dog.ceo.</string>
+    <string name="app_home_page">صفحه پروژه</string>
+    <string name="app_information_ok">باشه</string>
 </resources>

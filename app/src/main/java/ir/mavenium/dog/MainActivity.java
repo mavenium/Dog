@@ -1,15 +1,18 @@
 package ir.mavenium.dog;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -110,7 +113,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
             case R.id.option_menu_about:
-                Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
+                final AlertDialog.Builder infoApp = new AlertDialog.Builder(MainActivity.this);
+                infoApp.setTitle(getString(R.string.app_information)).setMessage(getText(R.string.app_information_message)).setPositiveButton(getText(R.string.app_home_page), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent showHomePage = new Intent(Intent.ACTION_VIEW);
+                        showHomePage.setData(Uri.parse("https://github.com/mavenium/Dog"));
+                        startActivity(showHomePage);
+                    }
+                }).setNeutralButton(getText(R.string.app_information_ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).setCancelable(false).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
