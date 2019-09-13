@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">سگ</string>
+    <string name="snackbar_text">برای اعمال تغییرات باید برنامه را مجدد اجرا کنید</string>
+    <string name="options_menu_settings">تنظیمات</string>
+    <string name="preference_activity_title">تنظیمات</string>
+    <string name="title_activity_settings">تنظیمات</string>
+    <string name="tab_item_random_image_image_view_description">تصویر تصادفی</string>
+    <string name="tab_item_random_image_by_breed">تصادفی براساس نژاد</string>
+    <string name="tab_item_random_image">تصادفی</string>
+    <string name="snackbar_action">باشه</string>
+    <string name="language_title">زبان</string>
+    <string name="tab_item_random_image_fetch_button">واکشی</string>
+    <string name="dog_api_services_error_listener">خطا در دریافت اطلاعات از سرور!</string>
+    <string name="basic_header">پایه</string>
+    <string name="options_menu_about">درباره</string>
+</resources>
