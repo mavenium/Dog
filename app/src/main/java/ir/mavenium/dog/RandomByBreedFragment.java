@@ -1,5 +1,8 @@
 package ir.mavenium.dog;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,32 +48,37 @@ public class RandomByBreedFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onStart() {
-        dogApiServices = new DogApiServices(RandomByBreedFragment.super.getContext());
-        dogApiServices.getListAllBreeds(new DogApiServices.ListAllBreedsCallBack() {
-            @Override
-            public void onListAllBreedsRecived(List<String> Breeds) {
-                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Breeds);
-                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                listOfBreeds.setAdapter(spinnerAdapter);
-                listOfBreeds.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        breedsSelected = listOfBreeds.getSelectedItem().toString();
-                    }
+        if(hasInternetConnection()){
+            dogApiServices = new DogApiServices(RandomByBreedFragment.super.getContext());
+            dogApiServices.getListAllBreeds(new DogApiServices.ListAllBreedsCallBack() {
+                @Override
+                public void onListAllBreedsRecived(List<String> Breeds) {
+                    ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Breeds);
+                    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    listOfBreeds.setAdapter(spinnerAdapter);
+                    listOfBreeds.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            breedsSelected = listOfBreeds.getSelectedItem().toString();
+                        }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-                        breedsSelected = "affenpinscher";
-                    }
-                });
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+                            breedsSelected = "affenpinscher";
+                        }
+                    });
 
-            }
+                }
 
-            @Override
-            public void onListAllBreedsError(String Error) {
-                Toast.makeText(getContext(), Error, Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onListAllBreedsError(String Error) {
+                    Toast.makeText(getContext(), Error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(getContext(), getText(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
+        }
+
         super.onStart();
     }
 
@@ -82,16 +90,37 @@ public class RandomByBreedFragment extends Fragment implements View.OnClickListe
     }
 
     private void sendRequest() {
-        dogApiServices.getRandomImageByBreed(new DogApiServices.RandomByBreedResultCallBack() {
-            @Override
-            public void OnRandomImageByBreedRecived(String message) {
-                Picasso.get().load(message).into(dogImageView);
-            }
+        if(hasInternetConnection()){
+            dogApiServices.getRandomImageByBreed(new DogApiServices.RandomByBreedResultCallBack() {
+                @Override
+                public void OnRandomImageByBreedRecived(String message) {
+                    Picasso.get().load(message).into(dogImageView);
+                }
 
-            @Override
-            public void OnRandomImageByBreedError(String Error) {
-                Toast.makeText(getContext(), Error, Toast.LENGTH_SHORT).show();
-            }
-        }, breedsSelected);
+                @Override
+                public void OnRandomImageByBreedError(String Error) {
+                    Toast.makeText(getContext(), Error, Toast.LENGTH_SHORT).show();
+                }
+            }, breedsSelected);
+        } else {
+            Toast.makeText(getContext(), getText(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public boolean hasInternetConnection() {
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (wifiNetwork != null && wifiNetwork.isConnected()) {
+            return true;
+        }
+        NetworkInfo mobileNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (mobileNetwork != null && mobileNetwork.isConnected()) {
+            return true;
+        }
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            return true;
+        }
+        return false;
     }
 }

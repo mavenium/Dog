@@ -68,12 +68,6 @@ public class MainActivity extends BaseActivity {
                     }
                 }).check();
 
-        if(hasInternetConnection()){
-            Log.i(TAG, "onCreate - hasInternetConnection: Have Internet !");
-        } else {
-            Toast.makeText(this, getText(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
-        }
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(R.string.app_name);
@@ -133,23 +127,6 @@ public class MainActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public boolean hasInternetConnection() {
-        ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo wifiNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        if (wifiNetwork != null && wifiNetwork.isConnected()) {
-            return true;
-        }
-        NetworkInfo mobileNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        if (mobileNetwork != null && mobileNetwork.isConnected()) {
-            return true;
-        }
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if (activeNetwork != null && activeNetwork.isConnected()) {
-            return true;
-        }
-        return false;
     }
 
     @Override

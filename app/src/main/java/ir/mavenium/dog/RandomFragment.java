@@ -1,5 +1,8 @@
 package ir.mavenium.dog;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,20 +55,41 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
     }
 
     private void sendRequest() {
-        dogApiServices = new DogApiServices(RandomFragment.super.getContext());
-        dogApiServices.getRandomImage(new DogApiServices.RandomResultCallBack() {
-            @Override
-            public void onRandomImageRecived(String message) {
-                Picasso.get().load(message).into(dogimageView);
-                String[] separated = message.split("/");
-                dogBreedName.setText(separated[4].trim());
-            }
+        if(hasInternetConnection()){
+            dogApiServices = new DogApiServices(RandomFragment.super.getContext());
+            dogApiServices.getRandomImage(new DogApiServices.RandomResultCallBack() {
+                @Override
+                public void onRandomImageRecived(String message) {
+                    Picasso.get().load(message).into(dogimageView);
+                    String[] separated = message.split("/");
+                    dogBreedName.setText(separated[4].trim());
+                }
 
-            @Override
-            public void onRandomImageError(String error) {
-                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onRandomImageError(String error) {
+                    Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(getContext(), getText(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public boolean hasInternetConnection() {
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (wifiNetwork != null && wifiNetwork.isConnected()) {
+            return true;
+        }
+        NetworkInfo mobileNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (mobileNetwork != null && mobileNetwork.isConnected()) {
+            return true;
+        }
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            return true;
+        }
+        return false;
     }
 
 
