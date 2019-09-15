@@ -29,8 +29,9 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.util.List;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
     private Toolbar toolbar;
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle(R.string.app_name);
 
         tableLayout = findViewById(R.id.tab_layout);
         tableLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -151,7 +153,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocaleHelper.onAttach(newBase));
+    public void updateLocale(Locale locale) {
+        super.updateLocale(locale);
+        setTitle(R.string.app_name);
     }
 }

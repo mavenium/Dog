@@ -6,21 +6,25 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import java.util.Locale;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
 
     private Toolbar settingToolbar;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.OnSharedPreferenceChangeListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,40 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if (key.equals("app_language")) {
+                    updateLocale(new Locale(sharedPreferences.getString("app_language", "en")));
+
+                    Intent refresh = new Intent(SettingsActivity.this, MainActivity.class);
+                    startActivity(refresh);
+                }
+            }
+
+        };
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
@@ -50,32 +88,16 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            settingsChecker();
-
             finish();
-
-            Intent refresh = new Intent(this, MainActivity.class);
-            startActivity(refresh);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
     }
 
-    public void settingsChecker() {
-        String language = sharedPreferences.getString("app_language", "en");
-
-        Locale currentLocale = getResources().getConfiguration().locale;
-
-        if (!language.equals(currentLocale.toString())) {
-
-            Context context = LocaleHelper.setLocale(this, language);
-            Resources resources = context.getResources();
-            Locale appLocale = new Locale(language);
-            Configuration configuration = resources.getConfiguration();
-            configuration.setLocale(appLocale);
-
-            resources.updateConfiguration(configuration, resources.getDisplayMetrics());
-
-        }
-
+    @Override
+    public void updateLocale(Locale locale) {
+        super.updateLocale(locale);
     }
 }
