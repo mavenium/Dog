@@ -25,11 +25,20 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
     private DogApiServices dogApiServices;
     private TextView dogBreedName;
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,6 +56,9 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
         super.onStart();
     }
 
+    /**
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.fragment_random_fetch_button) {
@@ -58,6 +70,9 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
         if(hasInternetConnection()){
             dogApiServices = new DogApiServices(RandomFragment.super.getContext());
             dogApiServices.getRandomImage(new DogApiServices.RandomResultCallBack() {
+                /**
+                 * @param message
+                 */
                 @Override
                 public void onRandomImageRecived(String message) {
                     Picasso.get().load(message).into(dogimageView);
@@ -65,6 +80,9 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
                     dogBreedName.setText(separated[4].trim());
                 }
 
+                /**
+                 * @param error
+                 */
                 @Override
                 public void onRandomImageError(String error) {
                     Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
@@ -75,6 +93,9 @@ public class RandomFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * @return boolean state
+     */
     public boolean hasInternetConnection() {
         ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifiNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);

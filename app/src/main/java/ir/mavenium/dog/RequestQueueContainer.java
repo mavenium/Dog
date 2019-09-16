@@ -10,6 +10,10 @@ public class RequestQueueContainer {
 
     private RequestQueueContainer() {}
 
+    /**
+     * @param context
+     * @return request queue
+     */
     public static RequestQueue getInstance (Context context) {
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(context);

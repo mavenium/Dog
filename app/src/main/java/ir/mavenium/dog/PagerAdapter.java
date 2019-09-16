@@ -8,11 +8,19 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     private int tabCount;
 
+    /**
+     * @param fm
+     * @param tabCount
+     */
     public PagerAdapter(FragmentManager fm, int tabCount) {
         super(fm);
         this.tabCount = tabCount;
     }
 
+    /**
+     * @param position
+     * @return fragment
+     */
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -27,6 +35,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
+    /**
+     * @return tab count
+     */
     @Override
     public int getCount() {
         return tabCount;

@@ -30,11 +30,20 @@ public class RandomByBreedFragment extends Fragment implements View.OnClickListe
     private DogApiServices dogApiServices;
     private String breedsSelected;
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,17 +60,31 @@ public class RandomByBreedFragment extends Fragment implements View.OnClickListe
         if(hasInternetConnection()){
             dogApiServices = new DogApiServices(RandomByBreedFragment.super.getContext());
             dogApiServices.getListAllBreeds(new DogApiServices.ListAllBreedsCallBack() {
+
+                /**
+                 * @param Breeds
+                 */
                 @Override
                 public void onListAllBreedsRecived(List<String> Breeds) {
                     ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Breeds);
                     spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     listOfBreeds.setAdapter(spinnerAdapter);
                     listOfBreeds.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                        /**
+                         * @param adapterView
+                         * @param view
+                         * @param i
+                         * @param l
+                         */
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                             breedsSelected = listOfBreeds.getSelectedItem().toString();
                         }
 
+                        /**
+                         * @param adapterView
+                         */
                         @Override
                         public void onNothingSelected(AdapterView<?> adapterView) {
                             breedsSelected = "affenpinscher";
@@ -70,6 +93,9 @@ public class RandomByBreedFragment extends Fragment implements View.OnClickListe
 
                 }
 
+                /**
+                 * @param Error
+                 */
                 @Override
                 public void onListAllBreedsError(String Error) {
                     Toast.makeText(getContext(), Error, Toast.LENGTH_SHORT).show();
@@ -82,6 +108,9 @@ public class RandomByBreedFragment extends Fragment implements View.OnClickListe
         super.onStart();
     }
 
+    /**
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.fragment_random_by_breed_fetch_button) {
@@ -92,21 +121,32 @@ public class RandomByBreedFragment extends Fragment implements View.OnClickListe
     private void sendRequest() {
         if(hasInternetConnection()){
             dogApiServices.getRandomImageByBreed(new DogApiServices.RandomByBreedResultCallBack() {
+
+                /**
+                 * @param message
+                 */
                 @Override
                 public void OnRandomImageByBreedRecived(String message) {
                     Picasso.get().load(message).into(dogImageView);
                 }
 
+                /**
+                 * @param Error
+                 */
                 @Override
                 public void OnRandomImageByBreedError(String Error) {
                     Toast.makeText(getContext(), Error, Toast.LENGTH_SHORT).show();
                 }
+
             }, breedsSelected);
         } else {
             Toast.makeText(getContext(), getText(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
         }
     }
 
+    /**
+     * @return boolean state
+     */
     public boolean hasInternetConnection() {
         ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifiNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);

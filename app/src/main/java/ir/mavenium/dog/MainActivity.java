@@ -38,6 +38,9 @@ public class MainActivity extends BaseActivity {
     private TabLayout tableLayout;
     private ViewPager viewPager;
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,10 @@ public class MainActivity extends BaseActivity {
         Dexter.withActivity(MainActivity.this)
                 .withPermissions(Manifest.permission.INTERNET, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE)
                 .withListener(new MultiplePermissionsListener() {
+
+                    /**
+                     * @param report
+                     */
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()){
@@ -56,6 +63,10 @@ public class MainActivity extends BaseActivity {
                         }
                     }
 
+                    /**
+                     * @param permissions
+                     * @param token
+                     */
                     @Override
                     public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, final PermissionToken token) {
                         Snackbar.make(viewPager,getText(R.string.need_permission), Snackbar.LENGTH_INDEFINITE)
@@ -66,6 +77,7 @@ public class MainActivity extends BaseActivity {
                                     }
                                 }).show();
                     }
+
                 }).check();
 
         toolbar = findViewById(R.id.toolbar);
@@ -75,20 +87,31 @@ public class MainActivity extends BaseActivity {
         tableLayout = findViewById(R.id.tab_layout);
         tableLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tableLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+            /**
+             * @param tab
+             */
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
+            /**
+             * @param tab
+             */
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
             }
 
+            /**
+             * @param tab
+             */
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
+
         });
 
         viewPager = findViewById(R.id.view_pager);
@@ -96,12 +119,20 @@ public class MainActivity extends BaseActivity {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tableLayout));
     }
 
+    /**
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -129,6 +160,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /**
+     * @param locale 
+     */
     @Override
     public void updateLocale(Locale locale) {
         super.updateLocale(locale);

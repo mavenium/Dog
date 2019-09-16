@@ -22,10 +22,16 @@ public class DogApiServices {
     private static final String TAG = "ApiServices";
     private Context context;
 
+    /**
+     * @param context
+     */
     public DogApiServices(Context context) {
         this.context = context;
     }
 
+    /**
+     * @param resultCallBack
+     */
     public void getRandomImage(final RandomResultCallBack resultCallBack) {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, "https://dog.ceo/api/breeds/image/random", null, new Response.Listener<JSONObject>() {
             @Override
@@ -51,6 +57,10 @@ public class DogApiServices {
         RequestQueueContainer.getInstance(context).add(request);
     }
 
+    /**
+     * @param randomByBreedResultCallBack
+     * @param Breed
+     */
     public void getRandomImageByBreed(final RandomByBreedResultCallBack randomByBreedResultCallBack, String Breed) {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, "https://dog.ceo/api/breed/" + Breed + "/images/random", null, new Response.Listener<JSONObject>() {
             @Override
@@ -76,6 +86,9 @@ public class DogApiServices {
         RequestQueueContainer.getInstance(context).add(request);
     }
 
+    /**
+     * @param resultCallBack
+     */
     public void getListAllBreeds(final ListAllBreedsCallBack resultCallBack) {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, " https://dog.ceo/api/breeds/list/all", null, new Response.Listener<JSONObject>() {
             @Override
