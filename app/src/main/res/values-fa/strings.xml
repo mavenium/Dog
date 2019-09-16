@@ -19,7 +19,7 @@
     <string name="app_information_message">برنامه نویسی شده توسط مهدی نمکی (Mavenium) بر پایه API پروژه dog.ceo.</string>
     <string name="app_home_page">صفحه پروژه</string>
     <string name="app_information_ok">باشه</string>
-    <string name="app_exit_message">آیا «ی خواهید از این برنامه خارج شوید؟</string>
+    <string name="app_exit_message">آیا می خواهید از این برنامه خارج شوید؟</string>
     <string name="app_exit_no">لغو</string>
     <string name="app_exit_title">خروج</string>
     <string name="app_exit_yes">بله</string>
