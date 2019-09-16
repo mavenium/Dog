@@ -15,6 +15,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -161,7 +162,34 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
-     * @param locale 
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK) {
+            AlertDialog.Builder exitApp = new AlertDialog.Builder(MainActivity.this);
+            exitApp.setTitle(getString(R.string.app_exit_title)).setMessage(getString(R.string.app_exit_message)).setPositiveButton(getString(R.string.app_exit_yes), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    moveTaskToBack(true);
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                    System.exit(1);
+                }
+            }).setNeutralButton(getString(R.string.app_exit_no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).setCancelable(false).show();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * @param locale
      */
     @Override
     public void updateLocale(Locale locale) {

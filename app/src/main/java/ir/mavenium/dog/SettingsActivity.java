@@ -55,6 +55,8 @@ public class SettingsActivity extends BaseActivity {
 
                     Intent refresh = new Intent(SettingsActivity.this, MainActivity.class);
                     startActivity(refresh);
+
+                    finish();
                 }
             }
 
